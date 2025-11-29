@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Text
-from app.dependencies import Base
+from backend.app.dependencies import Base
 
 class Room(Base):
     __tablename__ = "rooms"

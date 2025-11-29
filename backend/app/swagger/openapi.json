@@ -1,0 +1,280 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "PairProgrammingAPI",
+        "description": "API for a Pair Programming Application",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/liveness": {
+            "get": {
+                "tags": [
+                    "Coding"
+                ],
+                "summary": "Get Liveness",
+                "description": "Returns application status. Used to check if the process is running.",
+                "operationId": "get_liveness_api_v1_liveness_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/health": {
+            "get": {
+                "tags": [
+                    "Coding"
+                ],
+                "summary": "Get Health Check",
+                "description": "Performs a health check by testing the database connection.\nReturns 200 OK if the database is accessible.",
+                "operationId": "get_health_check_api_v1_health_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/api/v1/rooms": {
+            "post": {
+                "tags": [
+                    "Coding"
+                ],
+                "summary": "Rest Create Room",
+                "description": "POST /rooms: Creates a new room. \nAlso logs incoming request headers.",
+                "operationId": "rest_create_room_api_v1_rooms_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoomCreate"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/autocomplete": {
+            "post": {
+                "tags": [
+                    "Coding"
+                ],
+                "summary": "Rest Get Autocomplete",
+                "description": "POST /autocomplete: Provides a mocked suggestion.",
+                "operationId": "rest_get_autocomplete_api_v1_autocomplete_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AutocompleteRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AutocompleteResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "Read Root",
+                "operationId": "read_root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AutocompleteRequest": {
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "title": "Code"
+                    },
+                    "cursorPosition": {
+                        "type": "integer",
+                        "title": "Cursorposition"
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "Language"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "cursorPosition",
+                    "language"
+                ],
+                "title": "AutocompleteRequest"
+            },
+            "AutocompleteResponse": {
+                "properties": {
+                    "suggestion": {
+                        "type": "string",
+                        "title": "Suggestion"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "suggestion"
+                ],
+                "title": "AutocompleteResponse"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "RoomCreate": {
+                "properties": {
+                    "roomId": {
+                        "type": "string",
+                        "title": "Roomid"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "roomId"
+                ],
+                "title": "RoomCreate"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

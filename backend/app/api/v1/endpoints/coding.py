@@ -1,17 +1,25 @@
 import uuid
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Request, status
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text # Import text for raw query execution
 
-from app.dependencies import get_db, engine
-from app.schemas.room import RoomCreate, AutocompleteRequest, AutocompleteResponse
-from app.crud import room_crud
-from app.core.ws_manager import manager
-from app.core.logger import logger
+from backend.app.dependencies import get_db, engine
+from backend.app.schemas.room import RoomCreate, AutocompleteRequest, AutocompleteResponse
+from backend.app.crud import room_crud
+from backend.app.core.ws_manager import manager
+from backend.app.core.logger import logger
 
-router = APIRouter()
+common_responses = {
+    400: {"description": "Bad Request"},
+    401: {"description": "Unauthorized"},
+    404: {"description": "Not Found"},
+    500: {"description": "Internal Server Error"},
+}
+
+router = APIRouter(responses=common_responses)
 
 # --- HEALTH AND LIVENESS ENDPOINTS ---
+
 
 @router.get("/liveness")
 def get_liveness():
@@ -20,7 +28,7 @@ def get_liveness():
     """
     return {"status": "alive"}
 
-@router.get("/health")
+@router.get("/health", responses={503: {"description": "Service Unavailable"}})
 def get_health_check(db: Session = Depends(get_db)):
     """
     Performs a health check by testing the database connection.
@@ -76,4 +84,52 @@ def rest_get_autocomplete(payload: AutocompleteRequest):
 
     return {"suggestion": suggestion}
 
-# ... (rest of the WebSocket implementation remains the same)
+# --- WebSocket Endpoint ---
+
+# backend/app/api/v1/endpoints/coding.py
+
+# ... existing code ...
+
+# --- WebSocket Endpoint ---
+
+@router.websocket("/ws/{room_id}")
+async def ws_coding(websocket: WebSocket, room_id: str, db: Session = Depends(get_db)):
+    """/ws/{room_id}: Handles real-time code updates."""
+    
+    # 1. Check if room exists before connecting (THE FIX)
+    room = room_crud.get_room_by_id(db, room_id)
+    
+    if not room:
+         # Close with code 1008 Policy Violation if room is invalid/missing
+         await websocket.close(code=status.WS_1008_POLICY_VIOLATION, reason="Room does not exist.")
+         logger.warning(f"WebSocket rejected connection for unknown room ID: {room_id}")
+         return
+
+
+    # 2. Connect and Send initial state
+    await manager.connect(websocket, room_id)
+    
+    # Use the retrieved room object's code content
+    initial_code = room.code_content 
+    
+    if initial_code:
+        # Send existing code to the newly connected client
+        await websocket.send_text(initial_code)
+        logger.info(f"WebSocket client connected to room {room_id}. Sent initial state.")
+
+    try:
+        while True:
+            # Data received is the full content of the editor
+            data = await websocket.receive_text()
+            
+            # 3. Update persistent state 
+            # (Note: In a high-traffic app, you might want a fresh db session here 
+            # if 'room' object retention causes issues, but this is fine for a prototype)
+            room_crud.update_room_code(db, room_id, data)
+
+            # 4. Broadcast to all others in the room
+            await manager.broadcast(data, room_id, websocket)
+
+    except WebSocketDisconnect:
+        manager.disconnect(websocket, room_id)
+        logger.info(f"WebSocket client disconnected from room {room_id}.")

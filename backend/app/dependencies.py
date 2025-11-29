@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from app.config.config import settings
+from backend.app.config.config import settings
 
 # Setup database engine and session
 # The URL is pulled dynamically from the config file via the settings object

@@ -1,8 +1,7 @@
 import logging
 import sys
 
-# Define a standard format for log entries
-LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - [%(pathname)s:%(lineno)d] - %(message)s"
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def setup_logger(name: str = "app", level=logging.INFO):

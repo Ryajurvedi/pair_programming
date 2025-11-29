@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+websockets
+sqlalchemy
+psycopg2-binary  # For Postgres
+pydantic
+pydantic-settings

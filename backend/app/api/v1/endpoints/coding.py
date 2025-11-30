@@ -50,7 +50,6 @@ def rest_create_room(request: Request, db: Session = Depends(get_db)):
     Also logs incoming request headers.
     """
     # 1. Log Request Headers
-    # We log a subset of relevant headers for clarity, but request.headers contains all of them.
     relevant_headers = {
         'x-username': request.headers.get('x-username', 'N/A'),
         'x-usermail': request.headers.get('x-usermail', 'N/A'),
@@ -109,10 +108,7 @@ async def ws_coding(websocket: WebSocket, room_id: str, db: Session = Depends(ge
         while True:
             # Data received is the full content of the editor
             data = await websocket.receive_text()
-            
-            # 3. Update persistent state 
-            # (Note: In a high-traffic app, you might want a fresh db session here 
-            # if 'room' object retention causes issues, but this is fine for a prototype)
+          
             room_crud.update_room_code(db, room_id, data)
 
             # 4. Broadcast to all others in the room

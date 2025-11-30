@@ -8,10 +8,8 @@ from pydantic import model_validator
 # Define the path to your config file
 CONFIG_FILE_PATH = "config.json" 
 
-# Use an environment variable to determine which block of the config file to use
 ENVIRONMENT = os.environ.get("ENV_STATE", "PRODUCTION")
 
-# --- Helper Function (Outside the class) ---
 
 def _load_db_config_url() -> str:
     """Reads database credentials from the JSON file and constructs the connection URL."""
@@ -50,7 +48,6 @@ def _load_db_config_url() -> str:
         print(f"Error loading config for '{ENVIRONMENT}': {e}. Falling back to SQLite.")
         return "sqlite:///./code_collab.db"
 
-# --- Settings Class ---
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "PairProgrammingAPI"

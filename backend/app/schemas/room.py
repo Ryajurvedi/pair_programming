@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 
 class RoomCreate(BaseModel):
-    # Output schema for room creation
+  
     roomId: str
 
 class AutocompleteRequest(BaseModel):
     code: str
     cursorPosition: int
-    language: str # e.g., "python"
+    language: str 
 
 class AutocompleteResponse(BaseModel):
     suggestion: str

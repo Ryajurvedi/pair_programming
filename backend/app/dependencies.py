@@ -3,11 +3,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from backend.app.config.config import settings
 
-# Setup database engine and session
-# The URL is pulled dynamically from the config file via the settings object
 engine = create_engine(
     settings.SQLALCHEMY_DATABASE_URL
-    # Removed connect_args={"check_same_thread": False} as it's SQLite specific.
+
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

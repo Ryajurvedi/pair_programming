@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text 
-from backend.app.dependencies import get_db, engine
+from backend.app.dependencies import get_db
 from backend.app.schemas.room import RoomCreate, AutocompleteRequest, AutocompleteResponse
 from backend.app.crud import room_crud
 from backend.app.core.ws_manager import manager
@@ -15,8 +15,6 @@ common_responses = {
 }
 
 router = APIRouter(responses=common_responses)
-
-# --- HEALTH AND LIVENESS ENDPOINTS ---
 
 
 @router.get("/liveness")

@@ -1,9 +1,8 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware # <<< IMPORT ADDED
+from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api.v1.endpoints import coding
 from backend.app.dependencies import Base, engine
 from backend.app.config.config import settings
-from backend.app.models import room
 from backend.app.core.logger import logger
 
 # Initialize database tables
@@ -20,7 +19,8 @@ origins = [
     "http://127.0.0.1",
     "http://127.0.0.1:8000",
     "http://localhost:3000", 
-    "insomnia://app" # For Insomnia testing tool
+    "http://localhost:5173", 
+    "insomnia://app" 
 ]
 
 app.add_middleware(

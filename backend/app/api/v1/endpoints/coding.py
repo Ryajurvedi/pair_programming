@@ -1,8 +1,6 @@
-import uuid
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends, Request, status, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import text # Import text for raw query execution
-
+from sqlalchemy import text 
 from backend.app.dependencies import get_db, engine
 from backend.app.schemas.room import RoomCreate, AutocompleteRequest, AutocompleteResponse
 from backend.app.crud import room_crud
@@ -83,14 +81,6 @@ def rest_get_autocomplete(payload: AutocompleteRequest):
          suggestion = " # (Mock AI) Continue code..."
 
     return {"suggestion": suggestion}
-
-# --- WebSocket Endpoint ---
-
-# backend/app/api/v1/endpoints/coding.py
-
-# ... existing code ...
-
-# --- WebSocket Endpoint ---
 
 @router.websocket("/ws/{room_id}")
 async def ws_coding(websocket: WebSocket, room_id: str, db: Session = Depends(get_db)):

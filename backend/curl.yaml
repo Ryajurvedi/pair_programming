@@ -1,0 +1,159 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1764431972370
+  modified: 1764431972370
+  description: ""
+collection:
+  - name: pair_programming
+    meta:
+      id: fld_04413ef4db3f420d845ba9efac591900
+      created: 1764432395993
+      modified: 1764432395993
+      sortKey: -1764432395993
+      description: ""
+    children:
+      - url: http://localhost:8000/api/v1/rooms
+        name: rooms
+        meta:
+          id: req_bfe083e993ea458ba80e872dbb2c318f
+          created: 1764432122839
+          modified: 1764432401571
+          isPrivate: false
+          description: ""
+          sortKey: -1764432399065
+        method: POST
+        headers:
+          - name: accept
+            value: application/json
+          - name: x-username
+            value: rahul
+          - name: x-usermail
+            value: rahul_pair_programming@gmail.com
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/v1/autocomplete
+        name: autocomplete
+        meta:
+          id: req_a377b907272f485f81aa8d2ab836f162
+          created: 1764432135439
+          modified: 1764432400571
+          isPrivate: false
+          description: ""
+          sortKey: -1764432399115
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"code": "def my_func",
+            	"cursorPosition": 12,
+            	"language": "python"
+            }
+        headers:
+          - name: accept
+            value: application/json
+          - name: x-username
+            value: rahul
+          - name: x-usermail
+            value: rahul_pair_programming@gmail.com
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/v1/liveness
+        name: liveness
+        meta:
+          id: req_2a2842f5477f4cab85866edb6b688fe5
+          created: 1764432491423
+          modified: 1764432504804
+          isPrivate: false
+          description: ""
+          sortKey: -1764432399215
+        method: GET
+        headers:
+          - name: accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8000/api/v1/health
+        name: health
+        meta:
+          id: req_cd70bdabeaa84b0482a1f78ab1312415
+          created: 1764432515575
+          modified: 1764432525188
+          isPrivate: false
+          description: ""
+          sortKey: -1764432399165
+        method: GET
+        headers:
+          - name: accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: ws://localhost:8000/api/v1/ws/121b35
+        name: New WebSocket Request
+        meta:
+          id: ws-req_90c52979c79341a981abb593aec81478
+          created: 1764432184332
+          modified: 1764438925925
+          description: ""
+          sortKey: -1764432399015
+        settings:
+          encodeUrl: true
+          cookies:
+            store: true
+            send: true
+          followRedirects: global
+        headers:
+          - name: Origin
+            value: http://localhost:3000
+            description: ""
+            disabled: false
+          - name: x-username
+            value: rahul
+            description: ""
+            disabled: false
+          - name: x-usermail
+            value: rahul_pair_programming@gmail.com
+            description: ""
+            disabled: false
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1764431983996
+    modified: 1764431983996
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1764431983995
+    modified: 1764431983995
+    isPrivate: false

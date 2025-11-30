@@ -1,9 +1,9 @@
 import json
 import os
-from typing import Optional, Any, Dict
+from typing import  Any, Dict
 
 from pydantic_settings import BaseSettings
-from pydantic import model_validator, Field
+from pydantic import model_validator
 
 # Define the path to your config file
 CONFIG_FILE_PATH = "config.json" 
@@ -33,7 +33,6 @@ def _load_db_config_url() -> str:
         host = db_conf.get("host", "localhost")
         port = db_conf.get("port", 5432)
         user = db_conf.get("user", "postgres")
-        # NOTE: Using 'default_password' is better than hardcoding the actual password here
         password = db_conf.get("password", "default_password") 
         database = db_conf.get("database", "collab_db")
 

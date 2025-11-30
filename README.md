@@ -39,7 +39,7 @@ This project is a full-stack, collaborative, real-time code editor designed for 
                 "host": "db",
                 "port": 5432,
                 "user": "postgres",
-                "password": "Rv@123",
+                "password": "*****",
                 "database": "collab_db"
             }
         }
